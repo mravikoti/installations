@@ -1,0 +1,51 @@
+# Use the official Jenkins image from Docker Hub. For Jenkins LTS (Long Term Support)
+docker pull jenkins/jenkins:lts
+
+# Alternatively, for the latest version
+docker pull jenkins/jenkins
+
+# Create a Docker Volume for Jenkins Data To persist Jenkins data across container restarts
+docker volume create jenkins_home
+
+# Run Jenkins Container with the necessary ports and volume mapped
+docker run -d --name jenkins -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts
+  Ports:
+      8080: Web UI
+      50000: For Jenkins agents
+  Volumes:
+      jenkins_home: Stores Jenkins data persistently.
+
+# Access Jenkins
+http://<your_server_ip>:8080
+# Retrieve the initial admin password from the logs
+docker logs jenkins
+# Look for the password in the output, typically at
+/var/jenkins_home/secrets/initialAdminPassword
+
+Enter the password on the Jenkins setup page and complete the setup wizard
+
+# Customize Jenkins with a docker-compose File
+# reate a docker-compose.yml file for easier management
+
+version: '3.8'
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    restart: always
+volumes:
+  jenkins_home:
+
+# Start the container
+
+docker-compose up -d
+
+
+
+
+
