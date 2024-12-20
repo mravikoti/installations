@@ -36,3 +36,8 @@ Output Example:
 # Select the desired version and install:
 VERSION_STRING=5:27.4.0-1~ubuntu.24.04~noble
 sudo apt-get install docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Verify that the installation is successful by running the hello-world image
+
+sudo docker run hello-world
+
